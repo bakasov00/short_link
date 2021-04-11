@@ -1,0 +1,37 @@
+{
+  "name": "link_shortening-",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js --ignore client",
+    "client": "npm run start --prefix client",
+    "client:install": "npm install --prefix client",
+    "client:build": "npm run build --prefix client",
+    "dev": "concurrently \"npm run server\" \" npm run client\" ",
+    "devd": "concurrently \"npm run server\" \" npm run client\" \" npm run debag\" "
+  },
+  "keywords": [
+    "mern",
+    "react"
+  ],
+  "author": "Bakasov Ariet <bakasovariet00@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "config": "^3.3.6",
+    "express": "^4.17.1",
+    "express-validator": "^6.10.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.2",
+    "react-hook-form": "^7.0.5",
+    "shortid": "^2.2.16"
+  },
+  "devDependencies": {
+    "@hookform/devtools": "^2.2.1",
+    "concurrently": "^6.0.0",
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.7"
+  }
+}

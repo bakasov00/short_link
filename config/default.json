@@ -1,0 +1,6 @@
+{
+	"port": 5000,
+	"mongoUri" : "mongodb+srv://user:user@cluster0.da1jn.mongodb.net/shortLink?retryWrites=true&w=majority",
+	"jwtSecret": "dasdsad",
+	"baseUrl": "http://localhost:5000"
+}
