@@ -6,15 +6,21 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getOneLink } from '../redux/actions/linkActions'
 
 function DetailPage() {
-  const linkId = useParams().id
   const dispatch = useDispatch()
+  const linkId = useParams().id
   const { loading, link } = useSelector(({ linkReducer }) => linkReducer)
 
   useEffect(() => {
     dispatch(getOneLink(linkId))
   }, [dispatch, linkId])
 
-  return <>{!loading ? <LinkCard link={link} /> : <Loader />}</>
+  if (loading) return <Loader />
+
+  return (
+    <>
+      <LinkCard link={link} />
+    </>
+  )
 }
 
 export default DetailPage

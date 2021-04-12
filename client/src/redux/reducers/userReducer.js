@@ -67,6 +67,11 @@ const userReducer = (state = initalState, action) => {
         success: false,
         isAuth: false,
       }
+    case CONSTANTS.CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      }
     default:
       return state
   }

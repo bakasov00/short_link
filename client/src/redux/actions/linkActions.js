@@ -17,15 +17,17 @@ export const generateLink = (link) => async (dispatch) => {
       throw new Error(data.message || 'Что-то пошло не так')
     }
     dispatch({ type: CONSTANTS.LINK_GENERATE_SUCCESS, payload: data })
+    return data
   } catch (err) {
     dispatch({ type: CONSTANTS.LINK_GENERATE_FAILED, payload: err.message })
     console.log(err)
   }
 }
 
-export const getAllLinks = (token) => async (dispatch) => {
+export const getAllLinks = () => async (dispatch) => {
   dispatch({ type: CONSTANTS.LINK_GET_ALL_START })
   try {
+    const { token } = JSON.parse(localStorage.getItem('userData'))
     const response = await fetch('/api/link/', {
       method: 'GET',
       headers: {
@@ -57,7 +59,6 @@ export const getOneLink = (linkId) => async (dispatch) => {
       },
     })
     const data = await response.json()
-    console.log(data)
 
     if (!response.ok) {
       throw new Error(data.message || 'Что-то пошло не так')
@@ -65,6 +66,32 @@ export const getOneLink = (linkId) => async (dispatch) => {
     dispatch({ type: CONSTANTS.LINK_GET_ONE_SUCCESS, payload: data })
   } catch (err) {
     dispatch({ type: CONSTANTS.LINK_GET_ONE_FAILED, payload: err.message })
+    console.log(err)
+  } finally {
+    // dispatch({ type: CONSTANTS.CLEAR_ERROR })
+  }
+}
+
+export const deleteLink = (linkId) => async (dispatch) => {
+  dispatch({ type: CONSTANTS.LINK_DELETE_START })
+  try {
+    const { token } = JSON.parse(localStorage.getItem('userData'))
+
+    const response = await fetch(`/api/link/delete/${linkId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token} `,
+        'Content-Type': 'application/json',
+      },
+    })
+    const data = await response.json()
+    if (!response.ok) {
+      throw new Error(data.message || 'Что-то пошло не так')
+    }
+    dispatch({ type: CONSTANTS.LINK_DELETE_SUCCESS })
+    return data
+  } catch (err) {
+    dispatch({ type: CONSTANTS.LINK_DELETE_FAILED, payload: err.message })
     console.log(err)
   }
 }

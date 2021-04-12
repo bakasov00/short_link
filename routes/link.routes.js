@@ -49,4 +49,12 @@ router.get('/:id', authMiddleware, async (req, res) => {
   }
 })
 
+router.delete('/delete/:id', authMiddleware, async (req, res) => {
+  try {
+    await Link.deleteOne({ _id: req.params.id })
+    res.json({ message: 'Ссылка удалена' })
+  } catch (err) {
+    res.status(500).json({ message: 'Что-то пошло не так', err: err.message })
+  }
+})
 module.exports = router

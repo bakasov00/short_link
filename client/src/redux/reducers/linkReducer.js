@@ -2,7 +2,8 @@ import CONSTANTS from '../constants'
 const initialState = {
   loading: false,
   links: [],
-  link: null,
+  link: {},
+  error: null,
 }
 
 const linkReducer = (state = initialState, action) => {
@@ -22,6 +23,7 @@ const linkReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        error: action.payload,
       }
     case CONSTANTS.LINK_GET_ALL_START:
       return {
@@ -56,6 +58,27 @@ const linkReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        link: {},
+      }
+    case CONSTANTS.LINK_DELETE_START:
+      return {
+        ...state,
+        loading: true,
+      }
+    case CONSTANTS.LINK_DELETE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      }
+    case CONSTANTS.LINK_DELETE_FAILED:
+      return {
+        ...state,
+        loading: false,
+      }
+    case CONSTANTS.CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
       }
     default:
       return state

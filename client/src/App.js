@@ -1,15 +1,15 @@
-import { Switch, Route, Redirect } from 'react-router-dom'
-import { CreatePage, DetailPage, LinksPage } from './pages'
-import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 
-import { Navbar, Loader, Signin, Signup } from './components'
+import { Navbar } from './components'
 import { getData } from './redux/actions/userActions'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { Container } from '@material-ui/core'
+import { useRoute } from './routes'
 
 function App() {
-  const { isAuth, loading } = useSelector(({ userReducer }) => userReducer)
+  const { isAuth } = useSelector(({ userReducer }) => userReducer)
   const dispatch = useDispatch()
+  const route = useRoute(isAuth)
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('userData'))
@@ -18,28 +18,10 @@ function App() {
     }
   }, [dispatch])
 
-  if (loading) {
-    return <Loader />
-  }
   return (
     <>
       {isAuth && <Navbar />}
-      <div className='container'>
-        {isAuth ? (
-          <Switch>
-            <Route path='/create' exact component={CreatePage} />
-            <Route path='/links' exact component={LinksPage} />
-            <Route path='/detail/:id' component={DetailPage} />
-            <Redirect to='/create' />
-          </Switch>
-        ) : (
-          <Switch>
-            <Route path='/signin' exact component={Signin} />
-            <Route path='/signup' exact component={Signup} />
-            <Redirect to='/signin' />
-          </Switch>
-        )}
-      </div>
+      <Container>{route}</Container>
     </>
   )
 }

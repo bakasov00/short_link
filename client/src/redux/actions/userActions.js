@@ -54,7 +54,6 @@ export const getData = (token) => async (dispatch) => {
   try {
     const response = await fetch('/api/auth/me', {
       method: 'GET',
-      // body: JSON.stringify(form),
       headers: {
         Authorization: `Bearer ${token} `,
         // 'Content-Type': 'application/json',

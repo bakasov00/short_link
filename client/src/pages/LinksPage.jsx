@@ -2,15 +2,17 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { LinksList, Loader } from '../components'
 
+import { Typography } from '@material-ui/core'
+
 import { getAllLinks } from '../redux/actions/linkActions'
 
 function LinksPage() {
   const dispatch = useDispatch()
   const { links, loading } = useSelector(({ linkReducer }) => linkReducer)
+
   useEffect(() => {
     try {
-      const { token } = JSON.parse(localStorage.getItem('userData'))
-      dispatch(getAllLinks(token))
+      dispatch(getAllLinks())
     } catch (err) {
       console.log(err)
     }
@@ -18,7 +20,13 @@ function LinksPage() {
 
   return (
     <div>
-      <h3>Ваши ссылки</h3>
+      <Typography
+        variant='h4'
+        style={{
+          marginBottom: '20px',
+        }}>
+        Ваши ссылки
+      </Typography>
       {!loading ? <LinksList links={links} /> : <Loader />}
     </div>
   )
