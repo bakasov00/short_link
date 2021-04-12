@@ -10,7 +10,8 @@
     "client:install": "npm install --prefix client",
     "client:build": "npm run build --prefix client",
     "dev": "concurrently \"npm run server\" \" npm run client\" ",
-    "devd": "concurrently \"npm run server\" \" npm run client\" \" npm run debag\" "
+    "devd": "concurrently \"npm run server\" \" npm run client\" \" npm run debag\" ",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "keywords": [
     "mern",
