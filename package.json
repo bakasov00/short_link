@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node index.js",
-    "server": "cross-env NODE_ENV=development nodemon index.js --ignore client",
+    "start": "node index.js",
+    "server": "nodemon index.js --ignore client",
     "client": "npm run start --prefix client",
     "client:install": "npm install --prefix client",
     "client:build": "npm run build --prefix client",
