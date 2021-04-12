@@ -3,7 +3,11 @@ const mongoose = require('mongoose')
 const path = require('path')
 const config = require('config')
 
-const PORT = config.get('port') || 5000
+const PORT = process.env.PORT || 5000
+const dbString =
+  process.env.MONGODB_URI ||
+  'mongodb+srv://user:user@cluster0.da1jn.mongodb.net/shortLink?retryWrites=true&w=majority'
+
 const app = express()
 
 app.use(express.json({ extended: true }))
@@ -22,7 +26,7 @@ app.get('*', (req, res) => {
 async function start() {
   try {
     mongoose
-      .connect(config.get('mongoUri'), {
+      .connect(dbString, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
