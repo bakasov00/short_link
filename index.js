@@ -1,12 +1,10 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
-const config = require('config')
+const dotenv = require('dotenv')
+dotenv.config()
 
 const PORT = process.env.PORT || 5000
-const dbString =
-  process.env.MONGODB_URI ||
-  'mongodb+srv://user:user@cluster0.da1jn.mongodb.net/shortLink?retryWrites=true&w=majority'
 
 const app = express()
 
@@ -26,7 +24,7 @@ app.get('*', (req, res) => {
 async function start() {
   try {
     mongoose
-      .connect(dbString, {
+      .connect(process.env.DATABASE_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,

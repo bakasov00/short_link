@@ -1,15 +1,16 @@
 const { Router } = require('express')
 const Link = require('../model/Link')
-const config = require('config')
 const shortId = require('shortid')
 const authMiddleware = require('../middleware/auth.middleware')
+const dotenv = require('dotenv')
+dotenv.config()
 
 const router = Router()
 
 router.post('/generate', authMiddleware, async (req, res) => {
   try {
     const { from } = req.body
-    const baseUrl = config.get('baseUrl')
+    const baseUrl = process.env.BASE_URL
     const code = shortId.generate()
 
     const existing = await Link.findOne({ from })

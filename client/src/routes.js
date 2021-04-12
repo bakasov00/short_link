@@ -9,15 +9,15 @@ export const useRoute = (isAuth) => {
         <Route path='/app/create' exact component={CreatePage} />
         <Route path='/app/links' exact component={LinksPage} />
         <Route path='/app/detail/:id' component={DetailPage} />
-        <Redirect to='/app/create' exact />
+        <Redirect to='/app/create' />
       </Switch>
     )
   }
   return (
     <Switch>
-      <Route path='/auth/signin' component={Signin} exact />
-      <Route path='/auth/signup' component={Signup} exact />
-      {/* <Route component={NotFound} path='*' /> */}
+      <Route path='/auth/signin' component={Signin} />
+      <Route path='/auth/signup' component={Signup} />
+      {/* <Redirect to='/auth/signin' /> */}
     </Switch>
   )
 }

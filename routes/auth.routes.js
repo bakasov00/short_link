@@ -1,10 +1,11 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const config = require('config')
 const { check, validationResult } = require('express-validator')
 const { Router } = require('express')
 const User = require('../model/User')
 const authMiddleware = require('../middleware/auth.middleware')
+const dotenv = require('dotenv')
+dotenv.config()
 
 const router = Router()
 
@@ -67,7 +68,7 @@ router.post(
         return res.status(400).json({ message: 'Не верный пароль' })
       }
 
-      const token = jwt.sign({ userId: user._id }, config.get('jwtSecret'), { expiresIn: '5h' })
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '5h' })
       res.status(200).json({ token, userId: user._id })
     } catch (err) {
       res.status(500).json({ message: 'Что-то пошло не так', err: err.message })
@@ -77,7 +78,7 @@ router.post(
 
 router.get('/me', authMiddleware, async (req, res) => {
   try {
-    const token = jwt.sign({ userId: req.user.userId }, config.get('jwtSecret'), {
+    const token = jwt.sign({ userId: req.user.userId }, process.env.JWT_SECRET, {
       expiresIn: '5h',
     })
 
