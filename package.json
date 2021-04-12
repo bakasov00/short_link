@@ -31,7 +31,6 @@
   "devDependencies": {
     "@hookform/devtools": "^2.2.1",
     "concurrently": "^6.0.0",
-    "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
     "nodemon": "^2.0.7"
   }
