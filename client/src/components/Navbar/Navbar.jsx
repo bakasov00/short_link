@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import CONSTANTS from '../redux/constants'
+import { useDispatch, useSelector } from 'react-redux'
+import CONSTANTS from '../../redux/constants'
 
 import {
   AppBar,
@@ -34,22 +34,24 @@ const useStyles = makeStyles({
 function Navbar() {
   const history = useHistory()
   const dispatch = useDispatch()
+  const { isAuth } = useSelector(({ userReducer }) => userReducer)
   const classes = useStyles()
 
   function logoutHandler() {
     localStorage.removeItem('userData')
     dispatch({ type: CONSTANTS.LOGOUT })
-    history.push('/auth/signin')
+    history.push('/')
   }
+
   const navLink = [
-    { title: 'Создать', path: '/app/create' },
-    { title: 'Ссылки', path: '/app/links' },
+    { title: isAuth ? 'Создать' : 'Войти', path: isAuth ? '/app/create' : '/signin' },
+    { title: isAuth ? 'Ссылки' : 'Регистрация', path: isAuth ? '/app/links' : '/signup' },
   ]
 
   return (
     <AppBar position='static' className={classes.navBar}>
       <Toolbar>
-        <NavLink to='/app/create' className={classes.title}>
+        <NavLink to={isAuth ? '/app/create' : '/'} className={classes.title}>
           <Typography variant='h6' className={classes.link}>
             Link Shortener
           </Typography>
@@ -63,9 +65,13 @@ function Navbar() {
             </NavLink>
           ))}
         </List>
-        <Button color='secondary' variant='contained' onClick={logoutHandler}>
-          Выйти
-        </Button>
+        {isAuth ? (
+          <Button color='secondary' variant='contained' onClick={logoutHandler}>
+            Выйти
+          </Button>
+        ) : (
+          ''
+        )}
       </Toolbar>
     </AppBar>
   )

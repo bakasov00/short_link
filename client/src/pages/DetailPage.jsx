@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { LinkCard, Loader } from '../components'
+import { LinkCard, Loader, DetailCard } from '../components'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { getOneLink } from '../redux/actions/linkActions'
+import Example from '../components/File'
 
 function DetailPage() {
   const dispatch = useDispatch()
@@ -18,7 +19,8 @@ function DetailPage() {
 
   return (
     <>
-      <LinkCard link={link} />
+      <DetailCard link={link} />
+      <Example />
     </>
   )
 }

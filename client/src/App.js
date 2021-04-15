@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React from 'react'
 
 import { Navbar } from './components'
 import { getData } from './redux/actions/userActions'
@@ -11,7 +11,7 @@ function App() {
   const dispatch = useDispatch()
   const route = useRoute(isAuth)
 
-  useEffect(() => {
+  React.useEffect(() => {
     const data = JSON.parse(localStorage.getItem('userData'))
     if (data && data.token) {
       dispatch(getData(data.token))
@@ -20,7 +20,7 @@ function App() {
 
   return (
     <>
-      {isAuth && <Navbar />}
+      <Navbar />
       <Container>{route}</Container>
     </>
   )

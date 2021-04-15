@@ -1,26 +1,21 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { TextField, Button } from '@material-ui/core'
-import { useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import CONSTANTS from '../redux/constants'
-import { Alert } from '../components'
+import { Alert, LinkCard, LinksList } from '../components'
 
 import { generateLink } from '../redux/actions/linkActions'
 
 function CreatePage() {
-  const { loading, error } = useSelector(({ linkReducer }) => linkReducer)
+  const { loading, error, link } = useSelector(({ linkReducer }) => linkReducer)
   const dispatch = useDispatch()
   const [linkValue, setLinkValue] = useState('')
 
-  const history = useHistory()
-
   const pressHandler = () => {
     dispatch({ type: CONSTANTS.CLEAR_ERROR })
-    dispatch(generateLink(linkValue.split(' ').join(''))).then((data) => {
-      if (data) {
-        history.push(`/app/detail/${data._id}`)
-      }
-    })
+    dispatch(generateLink(linkValue.split(' ').join('')))
+    setLinkValue('')
   }
 
   React.useEffect(() => {
@@ -36,7 +31,7 @@ function CreatePage() {
       {error ? <Alert text={error} /> : ''}
       <br />
       <TextField
-        autoComplete='off'
+        autoComplete='on'
         name='link'
         type='text'
         value={linkValue}
@@ -54,6 +49,15 @@ function CreatePage() {
         color='primary'>
         Сократить
       </Button>
+      <br />
+      <br />
+      {link.to ? <LinkCard link={link} /> : ''}
+      <br />
+      <br />
+
+      <Link to='/app/links' style={{ fontSize: 24, fontWeight: 500, textAlign: 'center' }}>
+        Все ссылки
+      </Link>
     </>
   )
 }

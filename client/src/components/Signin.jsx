@@ -11,7 +11,7 @@ import { Alert } from '../components'
 
 const useStyles = makeStyles({
   div: {
-    paddingTop: 100,
+    paddingTop: 60,
     maxWidth: 600,
     margin: '0 auto',
   },
@@ -88,7 +88,7 @@ function Signin() {
             {loading ? 'Загрузка...' : 'Войти'}
           </Button>
           <br />
-          <Link to='/auth/signup'>
+          <Link to='/signup'>
             Нет аккаунта ? <span className={classes.span}>Регицтрация</span>
           </Link>
         </ValidatorForm>

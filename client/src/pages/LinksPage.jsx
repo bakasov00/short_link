@@ -8,7 +8,7 @@ import { getAllLinks } from '../redux/actions/linkActions'
 
 function LinksPage() {
   const dispatch = useDispatch()
-  const { links, loading } = useSelector(({ linkReducer }) => linkReducer)
+  const { allLinks, loading } = useSelector(({ linkReducer }) => linkReducer)
 
   useEffect(() => {
     try {
@@ -27,7 +27,7 @@ function LinksPage() {
         }}>
         Ваши ссылки
       </Typography>
-      {!loading ? <LinksList links={links} /> : <Loader />}
+      {!loading ? <LinksList links={allLinks} /> : <Loader />}
     </div>
   )
 }

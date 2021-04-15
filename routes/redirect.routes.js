@@ -1,15 +1,18 @@
 const { Router } = require('express')
-const Link = require('../model/Link')
+const { Link } = require('../model/Link')
+const userAgentMiddleware = require('../middleware/userAgent.middleware')
 
 const router = Router()
 
-router.get('/:code', async (req, res) => {
+router.get('/:code', userAgentMiddleware, async (req, res) => {
   try {
     const { code } = req.params
-
     const link = await Link.findOne({ code })
     if (link) {
       link.clicks++
+      link.browser = req.session.browser
+      link.os = req.session.os
+      link.platform = req.session.platform
       await link.save()
       return res.redirect(link.from)
     }

@@ -11,7 +11,7 @@ import { signup } from '../redux/actions/userActions'
 
 const useStyles = makeStyles({
   div: {
-    paddingTop: 100,
+    paddingTop: 60,
     maxWidth: 600,
     margin: '0 auto',
   },
@@ -91,7 +91,7 @@ function Signup() {
             {loading ? 'Загрузка...' : 'Региcтрация'}
           </Button>
           <br />
-          <Link to='/auth/signin'>
+          <Link to='/signin'>
             Уже есть аккаунт? <span className={classes.span}>Войти</span>
           </Link>
         </ValidatorForm>
