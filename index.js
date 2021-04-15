@@ -36,6 +36,7 @@ async function start() {
           useFindAndModify: true,
         },
       )
+
       .then(() => {
         console.log('DB connect')
         app.listen(PORT, () => {
