@@ -23,7 +23,7 @@ router.post('/generate', authMiddleware, async (req, res) => {
       return res.status(400).json({ message: 'Такой link уже есть!!!' })
     }
     // const lang = req.headers['accept-language'][1]
-    const to = baseUrl + 't/' + code
+    const to = 't/' + code
     const link = await Link.create({
       code,
       to,
