@@ -7,14 +7,14 @@ import { Container } from '@material-ui/core'
 import { useRoute } from './routes'
 
 function App() {
-  const { isAuth } = useSelector(({ userReducer }) => userReducer)
+  const { isAuth, loading } = useSelector(({ userReducer }) => userReducer)
   const dispatch = useDispatch()
-  const route = useRoute(isAuth)
+  const route = useRoute(isAuth, loading)
 
   React.useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('userData'))
-    if (data && data.token) {
-      dispatch(getData(data.token))
+    const token = JSON.parse(localStorage.getItem('ls_token'))
+    if (token) {
+      dispatch(getData(token))
     }
   }, [dispatch])
 

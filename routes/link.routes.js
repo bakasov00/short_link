@@ -1,11 +1,12 @@
 const { Router } = require('express')
 const { Link, LinkNoAuth } = require('../model/Link')
+const Browser = require('../model/Browser')
+const Platform = require('../model/Platform')
 const shortId = require('shortid')
 const authMiddleware = require('../middleware/auth.middleware')
 const userAgentMiddleware = require('../middleware/userAgent.middleware')
 const dotenv = require('dotenv')
 var geoip = require('geoip-lite')
-
 dotenv.config()
 
 const router = Router()
@@ -15,21 +16,21 @@ router.post('/generate', authMiddleware, async (req, res) => {
     const { from } = req.body
     const baseUrl = process.env.BASE_URL
     const code = shortId.generate()
-    // const geo = geoip.lookup(req.ip)
-    // console.log(req.ip)
-    const existing = await Link.findOne({ from })
+    const existing = await Link.findOne({ from, _id: req.user.userId })
 
     if (existing) {
       return res.status(400).json({ message: 'Такой link уже есть!!!' })
     }
-    // const lang = req.headers['accept-language'][1]
-    const to = 't/' + code
+    const to = baseUrl + '/t/' + code
     const link = await Link.create({
       code,
       to,
       from,
       owner: req.user.userId,
     })
+    link.browser = link._id
+    await link.save()
+
     res.status(201).json(link)
   } catch (err) {
     res.status(500).json({ message: 'Что-то пошло не так', err: err.message })
@@ -49,7 +50,7 @@ router.post('/noauth/generate', async (req, res) => {
       from,
     })
 
-    // const { to, from, code } = link
+    // const { to, from, code } = linkBASE_URL
     res.status(201).json({ to, from })
   } catch (err) {
     res.status(500).json({ message: 'Что-то пошло не так', err: err.message })
@@ -68,7 +69,11 @@ router.get('/', authMiddleware, async (req, res) => {
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const link = await Link.findById(req.params.id)
-    res.json(link)
+
+    const browser = await Platform.find({ ownerLink: link._id })
+    const platform = await Browser.find({ ownerLink: link._id })
+
+    res.json({ link, browser, platform })
   } catch (err) {
     res.status(500).json({ message: 'Что-то пошло не так', err: err.message })
   }
@@ -76,7 +81,9 @@ router.get('/:id', authMiddleware, async (req, res) => {
 
 router.delete('/delete/:id', authMiddleware, async (req, res) => {
   try {
-    await Link.deleteOne({ _id: req.params.id })
+    const link = await Link.findById(req.params.id)
+    await link.remove()
+    // await Link.deleteOne({ _id: req.params.id })
     res.json({ message: 'Ссылка удалена' })
   } catch (err) {
     res.status(500).json({ message: 'Что-то пошло не так', err: err.message })

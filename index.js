@@ -26,16 +26,12 @@ if (process.env.NODE_ENV === 'production') {
 async function start() {
   try {
     mongoose
-      .connect(
-        process.env.DATABASE_URI ||
-          'mongodb+srv://user:user@cluster0.da1jn.mongodb.net/shortLink?retryWrites=true&w=majority',
-        {
-          useNewUrlParser: true,
-          useUnifiedTopology: true,
-          useCreateIndex: true,
-          useFindAndModify: true,
-        },
-      )
+      .connect(process.env.DATABASE_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: true,
+      })
 
       .then(() => {
         console.log('DB connect')

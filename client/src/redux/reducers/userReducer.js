@@ -2,7 +2,6 @@ import CONSTANTS from '../constants'
 
 const initalState = {
   userData: {},
-  success: false,
   isAuth: false,
   loading: false,
   error: null,
@@ -15,7 +14,6 @@ const userReducer = (state = initalState, action) => {
     case CONSTANTS.LOGIN_SUCCESS:
       return {
         ...state,
-        success: true,
         isAuth: true,
         loading: false,
         userData: action.payload,
@@ -31,7 +29,6 @@ const userReducer = (state = initalState, action) => {
     case CONSTANTS.REGIS_SUCCESS:
       return {
         ...state,
-        success: true,
         loading: false,
         userData: action.payload,
       }
@@ -46,6 +43,7 @@ const userReducer = (state = initalState, action) => {
         ...state,
         isAuth: false,
         userData: {},
+        error: null,
       }
     case CONSTANTS.ME_START:
       return {
@@ -56,7 +54,6 @@ const userReducer = (state = initalState, action) => {
       return {
         ...state,
         loading: false,
-        success: true,
         isAuth: true,
         userData: action.payload,
       }
@@ -64,7 +61,6 @@ const userReducer = (state = initalState, action) => {
       return {
         ...state,
         loading: false,
-        success: false,
         isAuth: false,
       }
     case CONSTANTS.CLEAR_ERROR:

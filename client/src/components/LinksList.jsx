@@ -2,7 +2,7 @@ import React from 'react'
 // import DeleteIcon from '@material-ui/icons/Delete'
 // import { useDispatch } from 'react-redux'
 
-import { Typography, Grid } from '@material-ui/core'
+import { Typography, Grid, Card, CardContent } from '@material-ui/core'
 // import { makeStyles } from '@material-ui/core'
 // import { deleteLink, getAllLinks } from '../redux/actions/linkActions'
 import { LinkCard } from '../components'
@@ -26,11 +26,11 @@ function LinksList({ links }) {
   }
 
   return (
-    <Grid container direction='column' spacing={5}>
+    <>
       {links.map((link, i) => {
         return <LinkCard key={i} link={link} />
       })}
-    </Grid>
+    </>
   )
 }
 

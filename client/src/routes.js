@@ -3,7 +3,7 @@ import { CreatePage, DetailPage, LinksPage, MainPage } from './pages'
 import { Signin, Signup } from './components'
 
 export const useRoute = (isAuth) => {
-  if (localStorage.getItem('userData')) {
+  if (localStorage.getItem('ls_token')) {
     return (
       <Switch>
         <Route path='/app/create' exact component={CreatePage} />

@@ -19,7 +19,7 @@ function LinksPage() {
   }, [dispatch])
 
   return (
-    <div>
+    <>
       <Typography
         variant='h4'
         style={{
@@ -28,7 +28,7 @@ function LinksPage() {
         Ваши ссылки
       </Typography>
       {!loading ? <LinksList links={allLinks} /> : <Loader />}
-    </div>
+    </>
   )
 }
 

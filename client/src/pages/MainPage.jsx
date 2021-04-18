@@ -4,7 +4,7 @@ import { Button, Grid } from '@material-ui/core'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { generateNoAuthLink } from '../redux/actions/linkActions'
 import { useDispatch, useSelector } from 'react-redux'
-import { Alert, LinkCardNoAuth } from '../components'
+import { Alert, SimpleCard } from '../components'
 import CONSTANTS from '../redux/constants'
 
 function MainPage() {
@@ -22,7 +22,7 @@ function MainPage() {
     dispatch({ type: CONSTANTS.CLEAR_ERROR })
     dispatch(generateNoAuthLink(input)).then((data) => {
       if (data) {
-        setInput(data.to)
+        setInput('')
       }
     })
   }
@@ -58,7 +58,7 @@ function MainPage() {
       </ValidatorForm>
       <br />
       <br />
-      {linkNoAuth && <LinkCardNoAuth links={linkNoAuth} />}
+      {linkNoAuth && linkNoAuth.map((link) => <SimpleCard link={link} />)}
     </Grid>
   )
 }

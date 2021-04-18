@@ -14,6 +14,8 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
 
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+
 const useStyles = makeStyles({
   nav: {
     display: `flex`,
@@ -36,9 +38,10 @@ function Navbar() {
   const dispatch = useDispatch()
   const { isAuth } = useSelector(({ userReducer }) => userReducer)
   const classes = useStyles()
+  const matches = useMediaQuery('(min-width:600px)')
 
   function logoutHandler() {
-    localStorage.removeItem('userData')
+    localStorage.removeItem('ls_token')
     dispatch({ type: CONSTANTS.LOGOUT })
     history.push('/')
   }
@@ -53,7 +56,7 @@ function Navbar() {
       <Toolbar>
         <NavLink to={isAuth ? '/app/create' : '/'} className={classes.title}>
           <Typography variant='h6' className={classes.link}>
-            Link Shortener
+            lshort
           </Typography>
         </NavLink>
         <List component='nav' className={classes.nav}>

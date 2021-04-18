@@ -3,7 +3,7 @@ import CONSTANTS from '../constants'
 export const generateLink = (link) => async (dispatch) => {
   dispatch({ type: CONSTANTS.LINK_GENERATE_START })
   try {
-    const { token } = JSON.parse(localStorage.getItem('userData'))
+    const token = JSON.parse(localStorage.getItem('ls_token'))
     const response = await fetch('/api/link/generate', {
       method: 'POST',
       body: JSON.stringify({ from: link }),
@@ -49,7 +49,7 @@ export const generateNoAuthLink = (link) => async (dispatch) => {
 export const getAllLinks = () => async (dispatch) => {
   dispatch({ type: CONSTANTS.LINK_GET_ALL_START })
   try {
-    const { token } = JSON.parse(localStorage.getItem('userData'))
+    const token = JSON.parse(localStorage.getItem('ls_token'))
     const response = await fetch('/api/link/', {
       method: 'GET',
       headers: {
@@ -71,7 +71,7 @@ export const getAllLinks = () => async (dispatch) => {
 export const getOneLink = (linkId) => async (dispatch) => {
   dispatch({ type: CONSTANTS.LINK_GET_ONE_START })
   try {
-    const { token } = JSON.parse(localStorage.getItem('userData'))
+    const token = JSON.parse(localStorage.getItem('ls_token'))
 
     const response = await fetch(`/api/link/${linkId}`, {
       method: 'GET',
@@ -80,12 +80,12 @@ export const getOneLink = (linkId) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     })
-    const data = await response.json()
 
+    const data = await response.json()
     if (!response.ok) {
       throw new Error(data.message || 'Что-то пошло не так')
     }
-    console.log(data)
+
     dispatch({ type: CONSTANTS.LINK_GET_ONE_SUCCESS, payload: data })
   } catch (err) {
     dispatch({ type: CONSTANTS.LINK_GET_ONE_FAILED, payload: err.message })
@@ -96,7 +96,7 @@ export const getOneLink = (linkId) => async (dispatch) => {
 export const deleteLink = (linkId) => async (dispatch) => {
   dispatch({ type: CONSTANTS.LINK_DELETE_START })
   try {
-    const { token } = JSON.parse(localStorage.getItem('userData'))
+    const token = JSON.parse(localStorage.getItem('ls_token'))
 
     const response = await fetch(`/api/link/delete/${linkId}`, {
       method: 'DELETE',

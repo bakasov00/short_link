@@ -4,7 +4,7 @@ const initialState = {
   error: null,
   allLinks: [],
   linkNoAuth: [],
-  link: {},
+  linkOne: {},
 }
 
 const linkReducer = (state = initialState, action) => {
@@ -25,7 +25,7 @@ const linkReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         // links: newArr,
-        link: action.payload,
+        linkOne: action.payload,
       }
     }
     case CONSTANTS.LINK_GENERATE_FAILED:
@@ -60,7 +60,7 @@ const linkReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        link: action.payload,
+        linkOne: action.payload,
       }
 
     case CONSTANTS.LINK_GET_ONE_FAILED:

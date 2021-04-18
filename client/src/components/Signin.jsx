@@ -44,7 +44,7 @@ function Signin() {
   const handleSubmit = () => {
     dispatch({ type: CONSTANTS.CLEAR_ERROR })
     dispatch(signin(form))
-    history.push('/auth/signin')
+    // history.push('/auth/signin')
   }
 
   React.useEffect(() => {

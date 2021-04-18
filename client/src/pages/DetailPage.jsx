@@ -1,26 +1,54 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { LinkCard, Loader, DetailCard } from '../components'
+import { Loader, DetailCard, BarChartClicks, LinkCard } from '../components'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { getOneLink } from '../redux/actions/linkActions'
-import Example from '../components/File'
+import { Grid, Card, Typography, makeStyles } from '@material-ui/core'
+
+const useSyles = makeStyles({
+  flexItem: {
+    flex: '0 1 50% ',
+  },
+})
 
 function DetailPage() {
   const dispatch = useDispatch()
   const linkId = useParams().id
-  const { loading, link } = useSelector(({ linkReducer }) => linkReducer)
+  const { loading, linkOne } = useSelector(({ linkReducer }) => linkReducer)
+  const { link, browser, platform } = linkOne
+  const classes = useSyles()
 
   useEffect(() => {
     dispatch(getOneLink(linkId))
   }, [dispatch, linkId])
 
-  if (loading) return <Loader />
+  if (!link || loading) return <Loader />
 
   return (
     <>
       <DetailCard link={link} />
-      <Example />
+      <br />
+      <br />
+      <br />
+      {browser.length && platform.length ? (
+        <Grid container justify='space-between' spacing={3} wrap='wrap'>
+          <Grid item className={classes.flexItem}>
+            <Typography gutterBottom>Система (Click) </Typography>
+            <Card>
+              <BarChartClicks data={browser} />
+            </Card>
+          </Grid>
+          <Grid item className={classes.flexItem}>
+            <Typography gutterBottom>Браузеры (Click)</Typography>
+            <Card>
+              <BarChartClicks data={platform} />
+            </Card>
+          </Grid>
+        </Grid>
+      ) : (
+        <Typography> Пока нет статистики </Typography>
+      )}
     </>
   )
 }
