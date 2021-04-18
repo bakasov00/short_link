@@ -68,8 +68,8 @@ router.post(
         return res.status(400).json({ message: 'Не верный пароль' })
       }
 
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '5h' })
-      res.status(200).json({ token, userId: user._id })
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
+      res.status(200).json({ token, user: { email: user.email } })
     } catch (err) {
       res.status(500).json({ message: 'Что-то пошло не так', err: err.message })
     }
@@ -81,8 +81,8 @@ router.get('/me', authMiddleware, async (req, res) => {
     const token = jwt.sign({ userId: req.user.userId }, process.env.JWT_SECRET, {
       expiresIn: '5h',
     })
-
-    res.status(200).json({ token, userId: req.user.userId })
+    const user = await User.findById(req.user.userId)
+    res.status(200).json({ token, user: { email: user.email } })
   } catch (err) {
     res.status(500).json({ message: 'Что-то пошло не так', err: err.message })
   }

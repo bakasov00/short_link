@@ -1,13 +1,16 @@
 import React from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
-import CONSTANTS from '../redux/constants'
 
+import CONSTANTS from '../redux/constants'
 import { signin } from '../redux/actions/userActions'
-import { Button, Grid, Typography } from '@material-ui/core'
+import { Button, Grid, TextField, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
 import { Alert } from '../components'
+
+import { useForm, Controller } from 'react-hook-form'
+
+import Toast, { useToast } from '../components/Toast/Toast'
 
 const useStyles = makeStyles({
   div: {
@@ -31,67 +34,106 @@ function Signin() {
   const { loading, error } = useSelector(({ userReducer }) => userReducer)
   const dispatch = useDispatch()
   const classes = useStyles()
-  const history = useHistory()
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+  } = useForm()
 
-  const ref = React.useRef(null)
-  const [form, setForm] = React.useState({
-    email: '',
-    password: '',
-  })
-  const handleChange = (event) => {
-    setForm({ ...form, [event.target.name]: event.target.value })
-  }
-  const handleSubmit = () => {
+  // const [form, setForm] = React.useState({
+  //   email: '',
+  //   password: '',
+  // })
+  // const handleChange = (event, field) => {
+  //   setForm({ ...form, [event.target.name]: event.target.value })
+  // }
+  const { toastShow, toastRemove, toasts } = useToast()
+
+  const onSubmit = (data) => {
     dispatch({ type: CONSTANTS.CLEAR_ERROR })
-    dispatch(signin(form))
-    // history.push('/auth/signin')
+    dispatch(signin(data)).then((data) => {
+      if (data.errMessage) {
+        toastShow({ message: `${data.errMessage}`, flag: 'error' })
+      }
+    })
   }
 
-  React.useEffect(() => {
-    if (error) {
-      setTimeout(() => {
-        dispatch({ type: CONSTANTS.CLEAR_ERROR })
-      }, 5000)
-    }
-  }, [dispatch, error])
+  // React.useEffect(() => {
+  //   if (error) {
+  //     setTimeout(() => {
+  //       dispatch({ type: CONSTANTS.CLEAR_ERROR })
+  //     }, 5000)
+  //   }
+  // }, [dispatch, error])
 
+  // const handleClick = () => {
+
+  // }
   return (
-    <Grid container className={classes.div}>
+    <Grid container justify='center' className={classes.div}>
+      <Toast toastRemove={toastRemove} toasts={toasts} />
+      <Typography variant='h4'> Авторизация </Typography>
       <Grid item className={classes.flexItem}>
-        <ValidatorForm autoComplete='on' ref={ref} onSubmit={handleSubmit}>
-          <Typography variant='h4'>Авторизация </Typography>
-          {error ? <Alert text={error} /> : ''}
-          <TextValidator
-            variant='outlined'
-            label='Email'
-            fullWidth
-            onChange={handleChange}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Controller
             name='email'
-            value={form.email}
-            validators={['required', 'isEmail']}
-            errorMessages={['Это поле обязательно', 'Не коректный email']}
-            className={classes.input}
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'Это поле не может быть пустым',
+              },
+              pattern: {
+                value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                message: 'Не коректный Email',
+              },
+            }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant='outlined'
+                label='Email'
+                className={classes.input}
+                fullWidth
+                // onChange={handleChange}
+                // value={form.email}
+                error={!!errors.email}
+                helperText={errors.email ? errors.email.message : ''}
+              />
+            )}
           />
-          <TextValidator
-            className={classes.input}
-            variant='outlined'
-            fullWidth
-            label='Password'
-            onChange={handleChange}
+          <Controller
             name='password'
-            value={form.password}
-            validators={['required']}
-            errorMessages={['Это поле обязательно']}
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'Это поле не может быть пустым',
+              },
+            }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant='outlined'
+                className={classes.input}
+                label='Пароль'
+                fullWidth
+                // onChange={handleChange}
+                // value={form.password}
+                error={!!errors.password}
+                helperText={errors.password ? errors.password.message : ''}
+              />
+            )}
           />
-
           <Button disabled={loading} color='primary' variant='contained' type='submit'>
             {loading ? 'Загрузка...' : 'Войти'}
           </Button>
-          <br />
-          <Link to='/signup'>
-            Нет аккаунта ? <span className={classes.span}>Регицтрация</span>
-          </Link>
-        </ValidatorForm>
+        </form>
+
+        <br />
+        <Link to='/signup'>
+          Нет аккаунта ? <span className={classes.span}>Регицтрация</span>
+        </Link>
       </Grid>
     </Grid>
   )

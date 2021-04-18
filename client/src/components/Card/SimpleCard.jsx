@@ -1,15 +1,14 @@
 import React from 'react'
-import { Card, Button, Typography, CardContent } from '@material-ui/core'
+import { Card, Typography, CardContent } from '@material-ui/core'
 
-import { Alert, CopyClipboard } from '..'
+import { CopyClipboard } from '..'
 
 function SimpleCard({ link }) {
   return (
-    <Card>
+    <Card style={{ marginBottom: 25 }}>
       <CardContent
         style={{
           display: 'flex',
-          // justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
         }}>

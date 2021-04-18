@@ -67,6 +67,7 @@ const linkReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        error: action.payload,
       }
     case CONSTANTS.LINK_DELETE_START:
       return {
@@ -85,6 +86,7 @@ const linkReducer = (state = initialState, action) => {
     case CONSTANTS.LINK_DELETE_FAILED:
       return {
         ...state,
+        error: action.payload,
         // loading: false,
       }
     case CONSTANTS.LINK_GENERATE_NO_START:

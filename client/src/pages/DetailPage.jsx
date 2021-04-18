@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { Loader, DetailCard, BarChartClicks, LinkCard } from '../components'
+import { Loader, DetailCard, BarChartClicks } from '../components'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { getOneLink } from '../redux/actions/linkActions'
@@ -15,7 +15,7 @@ const useSyles = makeStyles({
 function DetailPage() {
   const dispatch = useDispatch()
   const linkId = useParams().id
-  const { loading, linkOne } = useSelector(({ linkReducer }) => linkReducer)
+  const { loading, linkOne, error } = useSelector(({ linkReducer }) => linkReducer)
   const { link, browser, platform } = linkOne
   const classes = useSyles()
 
@@ -23,7 +23,10 @@ function DetailPage() {
     dispatch(getOneLink(linkId))
   }, [dispatch, linkId])
 
-  if (!link || loading) return <Loader />
+  if (!link || loading) {
+    if (error) return <Typography> Что то пошло не так </Typography>
+    return <Loader />
+  }
 
   return (
     <>

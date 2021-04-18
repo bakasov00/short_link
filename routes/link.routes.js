@@ -16,7 +16,7 @@ router.post('/generate', authMiddleware, async (req, res) => {
     const { from } = req.body
     const baseUrl = process.env.BASE_URL
     const code = shortId.generate()
-    const existing = await Link.findOne({ from, _id: req.user.userId })
+    const existing = await Link.findOne({ from, owner: req.user.userId })
 
     if (existing) {
       return res.status(400).json({ message: 'Такой link уже есть!!!' })
@@ -43,14 +43,13 @@ router.post('/noauth/generate', async (req, res) => {
     const baseUrl = process.env.BASE_URL
     const code = shortId.generate()
 
-    const to = baseUrl + 't/' + code
+    const to = baseUrl + '/t/' + code + '/?n=true'
     const link = await LinkNoAuth.create({
       code,
       to,
       from,
     })
 
-    // const { to, from, code } = linkBASE_URL
     res.status(201).json({ to, from })
   } catch (err) {
     res.status(500).json({ message: 'Что-то пошло не так', err: err.message })
@@ -60,7 +59,7 @@ router.post('/noauth/generate', async (req, res) => {
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const links = await Link.find({ owner: req.user.userId })
-    res.json(links)
+    res.status(200).json(links)
   } catch (err) {
     res.status(500).json({ message: 'Что-то пошло не так', err: err.message })
   }
@@ -73,7 +72,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
     const browser = await Platform.find({ ownerLink: link._id })
     const platform = await Browser.find({ ownerLink: link._id })
 
-    res.json({ link, browser, platform })
+    res.status(200).json({ link, browser, platform })
   } catch (err) {
     res.status(500).json({ message: 'Что-то пошло не так', err: err.message })
   }

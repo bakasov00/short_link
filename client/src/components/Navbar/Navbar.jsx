@@ -38,7 +38,7 @@ function Navbar() {
   const dispatch = useDispatch()
   const { isAuth } = useSelector(({ userReducer }) => userReducer)
   const classes = useStyles()
-  const matches = useMediaQuery('(min-width:600px)')
+  const matches = useMediaQuery('(max-width:480px)')
 
   function logoutHandler() {
     localStorage.removeItem('ls_token')
@@ -50,7 +50,6 @@ function Navbar() {
     { title: isAuth ? 'Создать' : 'Войти', path: isAuth ? '/app/create' : '/signin' },
     { title: isAuth ? 'Ссылки' : 'Регистрация', path: isAuth ? '/app/links' : '/signup' },
   ]
-
   return (
     <AppBar position='static' className={classes.navBar}>
       <Toolbar>

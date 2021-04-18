@@ -2,7 +2,7 @@ import React from 'react'
 // import DeleteIcon from '@material-ui/icons/Delete'
 // import { useDispatch } from 'react-redux'
 
-import { Typography, Grid, Card, CardContent } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 // import { makeStyles } from '@material-ui/core'
 // import { deleteLink, getAllLinks } from '../redux/actions/linkActions'
 import { LinkCard } from '../components'

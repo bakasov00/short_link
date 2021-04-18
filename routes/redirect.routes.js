@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const { Link } = require('../model/Link')
+const { Link, LinkNoAuth } = require('../model/Link')
 const Browser = require('../model/Browser')
 const Platform = require('../model/Platform')
 const userAgentMiddleware = require('../middleware/userAgent.middleware')
@@ -9,8 +9,12 @@ const router = Router()
 router.get('/:code', userAgentMiddleware, async (req, res) => {
   try {
     const { code } = req.params
+    const { n } = req.query
+    if (n) {
+      const link = await LinkNoAuth.findOne({ code })
+      return res.redirect(link.from)
+    }
     const link = await Link.findOne({ code })
-
     if (link) {
       link.clicks++
       const browser = await Browser.findOne({ name: req.session.browser, ownerLink: link._id })

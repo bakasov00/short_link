@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Navbar } from './components'
+import { Navbar, Footer } from './components'
 import { getData } from './redux/actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
 import { Container } from '@material-ui/core'
@@ -22,6 +22,7 @@ function App() {
     <>
       <Navbar />
       <Container>{route}</Container>
+      {/* <Footer /> */}
     </>
   )
 }
