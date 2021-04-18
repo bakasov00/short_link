@@ -79,11 +79,6 @@ function Signup() {
       <Typography variant='h4'> Региcтрация </Typography>
       <Grid item className={classes.flexItem}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {/* {error || userData.message ? (
-            <Alert success={error ? false : true} text={error ? error : userData.message} />
-          ) : (
-            ''
-          )} */}
           <Controller
             name='email'
             control={control}
